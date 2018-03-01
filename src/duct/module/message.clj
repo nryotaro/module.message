@@ -25,12 +25,12 @@
 
 
 (defmethod ig/init-key :duct.message/pubsub
-  [_ {:keys [project-id subscription-id emulator] :as options}]
-  (assoc options :subscription-name (SubscriptionName/create project-id subscription-id)))
+  [_ {:keys [p-id s-id] :as opt}]
+  (assoc opt :s-name (SubscriptionName/create p-id s-id)))
 
 
 (defmethod ig/init-key :duct.module/message [_ options]
   {:fn (fn [config]
          (core/merge-configs
                      config
-                     (env-configs (get-environment config options))))})
+                     {:duct.message/pubsub {:logger (ig/ref :duct/logger)}}))})
